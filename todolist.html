@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>This is todo List</title>
+    <style type="text/css">
+        .isFinshed{font-size: 20px; font-weight: 800; color: red;}
+    </style>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="message" @keyup.enter="itemsPush">
+    <ol>
+        <todo-item v-for="(item, index) in items" :key="index" :content="item.label" :index="index" @delete="todoListDelete" :class="{isFinshed: item.isFinshed}"></todo-item>
+    </ol>
+</div>
+</body>
+<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+<script type="text/javascript">
+    Vue.component('todo-item', {
+        props: ['content', 'index'],
+        template: '<li @click="handleClick">{{ content }}</li>',
+        methods: {
+            handleClick: function () {
+                this.$emit('delete', this.index)
+            }
+        },
+    })
+
+    let app = new Vue({
+        el: '#app',
+        data: {
+            message: '',
+            items: [
+                {
+                    label: 'makeing',
+                    isFinshed: true,
+                },
+                {
+                    label: 'coding',
+                    isFinshed: true,
+                },
+                {
+                    label: 'walking',
+                    isFinshed: false,
+                },
+            ],
+        },
+        methods: {
+            todoListDelete: function (index) {
+                this.items.splice(index, 1);
+                // this.items[index].isFinshed = ! this.items[index].isFinshed;
+            },
+
+            itemsPush: function () {
+                this.items.push({
+                    label: this.message,
+                    isFinshed: false,
+                });
+                this.message = '';
+            },
+
+        },
+    })
+</script>
+</html>
