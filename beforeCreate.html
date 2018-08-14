@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue的生命周期函数</title>
+</head>
+<body>
+<div id="app">
+    {{ message }}
+</div>
+</body>
+<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+<script type="text/javascript">
+    let app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello, Vue!',
+        },
+
+        beforeCreate: function () {
+            console.log(" 创建之前: ");
+            console.log(this.message);
+            console.log(this.$el);
+        },
+
+        created: function () {
+            console.log(" 创建之后: ");
+            console.log(this.message);
+            console.log(this.$el);
+        },
+
+        beforeMount: function () {
+            console.log(" 实例化之前: ");
+            console.log(this.message);
+            console.log(this.$el);
+        },
+
+        mounted: function () {
+            console.log(" 实例化之后: ");
+            console.log(this.message);
+            console.log(this.$el);
+        }
+    });
+</script>
+</html>
