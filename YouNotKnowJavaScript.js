@@ -247,3 +247,38 @@ var obj = {
 };
 var f = foo.bind(obj);
 console.log(f(3));
+// api调用"上下文"
+function fel (el) {
+    console.log(el, this.id);
+}
+var obj = {
+    id: 'something'
+};
+var arr = [1, 2, 3];
+arr.forEach(fel, obj); // arr的每个元素都会被当做参数传给fel函数,可以叫它隐式传参?
+// new bind
+function foo (a) {
+    this.a = a;
+}
+var bar = new foo(2);
+console.log(bar.a);
+// 被忽略的this
+function foo () {
+    console.log(this.a);
+}
+var a = 2;
+foo.call(null); // 如果传入的 this 是 undefined, 在非严格模式下会默认绑定(绑定到全局对象)
+// 箭头函数bind
+function foo () {
+    setTimeout(() => {
+        console.log(this.a);
+    }, 200);
+}
+var obj = {
+    a: 'Hello, This',
+    foo: foo,
+};
+foo.call(obj);
+obj.foo();
+var bar = foo.bind(obj);
+bar();
