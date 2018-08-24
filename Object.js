@@ -183,3 +183,4 @@ var myObject = {
 for (var v of myObject) {
     console.log(v);
 }
+obj.getOwnPropertyDescriptor()
