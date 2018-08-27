@@ -28,3 +28,9 @@ function foo () {
 }
 var myfoo = new foo();
 console.log(Object.getPrototypeOf(myfoo) === foo.prototype);
+function foo () {
+
+}
+foo.prototype.constructor === foo;
+var a = new foo;
+a.constructor === foo;
