@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SearchMatchStr</title>
+</head>
+<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+<body>
+<div id="container">
+    <form action="searchReplaceStr.php" method="post" @submit="onSubmit">
+        <input type="text" name="target" v-model="target">
+        <span style="color:red;">替换为</span>
+        <input type="text" name="strReplace" v-model="strReplace">
+        <button>Submit!</button>
+    </form>
+</div>
+</body>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#container',
+        data: {
+            target: null,
+            strReplace: null,
+        },
+        methods: {
+            onSubmit: function (e) {
+                if (this.target && this.strReplace) {
+                    return true;
+                }
+                e.preventDefault();
+            }
+        },
+    })
+</script>
+</html>
