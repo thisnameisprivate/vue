@@ -11,8 +11,8 @@ module.exports = (cls) => {
     }
     return false;
 }
-/* ~All parts of a ClassDeclaration or a ClassExpression are strict mode code. */
-/* 说明class声明下都是strict mode, 那么在严格模式下,你一定见过这个错误:
+/* ~All parts of a ClassDeclaration or a ClassExpression are strict mode code;
+*  说明class声明下都是strict mode, 那么在严格模式下,你一定见过这个错误:
 *  Uncaught TypeError: 'caller', 'callee', and 'arguments' properties may not be accessed on strict mode functions or the arguments objects for calls to them
 *  所以如果你不是这么定义一个函数:
 * */
