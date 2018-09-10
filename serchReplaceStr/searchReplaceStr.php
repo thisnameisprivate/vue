@@ -1,5 +1,6 @@
 <?php
-class searchReplaceStr{
+header('Content-type:text/html; charset=utf8');
+class SearchReplaceStr {
     private $search = null;
     private $matchStr = null;
     public function __construct ($search, $matchStr) {
@@ -36,7 +37,7 @@ class searchReplaceStr{
                         if(is_dir($dir."/".$file)) {
                             $files[$file] = $this->sourceDir($dir."/".$file);
                         } else {
-                            $this->modifyFile($dir . "/" .$file);
+                            $this->modifyFile($dir . "/" . $file);
                         }
                     }
                 }
@@ -44,12 +45,46 @@ class searchReplaceStr{
         }
     }
 }
+/*
+ *
 if (!is_null($_POST)) {
     $searchReplaceStr = new searchReplaceStr($_POST['target'], $_POST['strReplace']);
-    print_r($searchReplaceStr->sourceDir('../'));
+    print_r($searchReplaceStr->sourceDir('..'));
 } else {
     echo "<script>
             alert('Please input value');
             location.href = './index.html';
           </script>";
+}
+ *
+ * */
+
+class Conn extends searchReplaceStr {
+    private $connectionStatus = null;
+    private $_user = null;
+    private $_host = null;
+    private $_dbname = null;
+    private $_pass = null;
+    private static $searchReplaceStr = null;
+    private function __construct () {
+
+    }
+    public static function instance () {
+        if (self::$searchReplaceStr == null) return self::$searchReplaceStr = new searchReplaceStr();
+    }
+    public function setConnectData ($user, $host, $dbname, $pass) {
+        if ($user == null || $host == null || $dbname == null || $pass == null) return false;
+        $this->_user = $user;
+        $this->_host = $host;
+        $this->_dbname = $dbname;
+        $this->_pass = $pass;
+        return true;
+    }
+    private function connection () {
+        try {
+            $this->connectionStatus = new \PDO("mysq:host=" . $this->_host . ";dbname = " . $this->_dbname, $this->_user, $this->_pass);
+        } catch (PDOException $e) {
+            die ("Connection fail: " . $e->getMessage());
+        }
+    }
 }
