@@ -87,3 +87,74 @@ var obj = {
     }
 };
 console.log(obj.latest);
+
+// 五个回调的故事
+analytics.trackPurchase(purchaseData, function () {
+    chargeCreditCard();
+    displayThankyouPage();
+});
+var tacked = false;
+analytics.trackPurchase(purchaseData, function () {
+    if (!tracked) {
+        tracked = true;
+        chargeCreditCard();
+        displayThankyouPage();
+    }
+});
+// 针对不信任输入的防御性代码
+function addNumbers (x, y) {
+    if (typeof x != 'number' || typeof y != 'number') {
+        throw Error("Bad parameters");
+    }
+    return x + y;
+}
+function addNumbers (x, y) {
+    x = Number(x);
+    y = Number(y);
+    return x + y;
+}
+function success (data) {
+    console.log(data);
+}
+function failure (err) {
+    console.log(err);
+}
+ajax('url.1', success, failure);
+// error-first
+function response(err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+}
+ajax('url.1', response);
+// 验证概念
+function timeoutify(fn, delay) {
+    var intv = setTimeout(function () {
+        intv = null;
+        fn (new Error(' Timeout! '));
+    }, delay);
+    return function () {
+        if (intv) {
+            clearTimeout(intv);
+            fn.apply(this, arguments);
+        }
+    }
+}
+function asyncify (fn) {
+    var orig_fn = fn;
+    intv = setTimeout(function () {
+        intv = null;
+        if (fn) fn ();
+    }, 0);
+}
+
+// 使用方式
+function foo (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+}
