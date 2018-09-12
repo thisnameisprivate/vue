@@ -148,6 +148,17 @@ function asyncify (fn) {
         intv = null;
         if (fn) fn ();
     }, 0);
+    fn = null;
+    return function () {
+        if (intv) {
+            fn = orig_fn.bind.apply(
+                orig_fn,
+                [this].concat([].slice.call(arguments));
+            );
+        } else {
+            orig_fn.apply(this, arguments);
+        }
+    }
 }
 
 // 使用方式
@@ -158,3 +169,76 @@ function foo (err, data) {
         console.log(data);
     }
 }
+
+// Promise
+function add (getX, getY, cb) {
+    var x, y;
+    getX(function (xVal) {
+        x = Xval;
+        if (y != undefined) {
+            cb (x + y);
+        }
+    });
+    getY(function (yVal) {
+        y = yVal;
+        if (x != undefined) {
+            cb (x + y);
+        }
+    });
+}
+add(getX, getY, function (sum) {
+    console.log(sum);
+})
+function add (xPromise, yPromise) {
+    return Promise.all([xPromise, yPromise])
+    .then(function (values) {
+        return values[0].values[1];
+    });
+}
+add(fetchX(), fetchY()).then(function (sum) {
+    console.log(sum);
+});
+function foo (x) {
+    // code
+}
+foo(42);
+on (foo "completion") {
+    // next code.
+}
+on (foo "error") {
+    // error
+}
+
+function foo (x) {
+    //
+    return listener;
+}
+var evt = foo(42);
+evt.on ('completion', function () {
+    // success.
+})
+evt.on ('failure', function () {
+    // failuer
+});
+function foo (x) {
+    return new Promise(function (resolve, reject) {
+
+    })
+}
+var p = foo(42);
+bar(p);
+function bar (fooPromise) {
+    fooPromise.then(function () {
+        // success.
+    }, function () {
+        // failure.
+    })
+}
+function bar () {
+    // success code
+}
+function baz () {
+    // error code
+}
+var p = foo();
+p.then(bar, baz);
