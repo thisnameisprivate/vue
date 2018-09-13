@@ -257,3 +257,17 @@ Promise.then(function (resolve) {
     // fialure.
     console.log(reject);
 });
+function timeoutPromise (delay) {
+    return new Promise(function (reslove, reject) {
+        setTimeout(function () {
+            reject('timeout.');
+        }, delay);
+    })
+}
+// set max time.
+Promise.race([
+    foo(),
+    timeoutPromise(3000)
+]).then(function () {
+    // foo
+});
