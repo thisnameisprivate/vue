@@ -242,3 +242,18 @@ function baz () {
 }
 var p = foo();
 p.then(bar, baz);
+// promise 实现
+var Promise = new Promise(function (resolve, reject) {
+   if (true) {
+       return resolve();
+   } else {
+       return reject();
+   }
+});
+Promise.then(function (resolve) {
+    // success.
+    console.log(resolve);
+}, function (reject) {
+    // fialure.
+    console.log(reject);
+});
