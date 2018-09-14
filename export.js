@@ -36,7 +36,9 @@ function isClass(fn) {
 "use strict";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
+        throw new TypeError("Cannot call a class as a function").catch(err) {
+            console.log('err: ' + err);
+        };
     }
 }
 var a = function a() {
