@@ -87,3 +87,24 @@ function run () {
     });
 }
 $('#run').on('click', run);
+const promise = new Promise((resolve, reject) => {
+    if (true) { // 异步执行成功
+        resolve();
+    } else {
+        reject();
+    }
+});
+promise.then ( resolve => {
+    return new Promise ((resolve, reject) => {
+        setTimeout(() => {
+            console.log("setTimeOut Resolve function");
+            resolve("Resolve function");
+        }, 1000)
+    })
+}, reject => {
+    console.log(reject);
+    return false;
+}).then (resolve => {
+    console.log(resolve);
+    console.log("Execute Over, Success function!");
+})
