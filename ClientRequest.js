@@ -48,5 +48,5 @@ const getXml = url => {
 getXML('urltest.php').then(resolve => {
     console.log("Get Content: " + resolve);
 }, resject => {
-    console.log("Catch Error: " + resject);
+    console.log("Catch Error: " + reject);
 });
