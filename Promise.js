@@ -225,3 +225,12 @@ if (!Promise.first) {
         })
     }
 }
+var x = 1;
+function *foo () {
+    x ++;
+    yield; // stop
+    console.log('x:' + x);
+}
+function bar () {
+    x ++;
+}
