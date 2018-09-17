@@ -108,3 +108,79 @@ promise.then ( resolve => {
     console.log(resolve);
     console.log("Execute Over, Success function!");
 })
+var p = {
+    then: function (cb, errcb) {
+        cb(42);
+        errcb("evil laugh");
+    }
+};
+p.then(function fulfilled(val) {
+    console.log(val); //42
+}, function rejected (err) {
+    console.log(err); // evil laugh
+})
+Promise.resolve(p).then(val => {
+    console.log(val);
+}, errject => {
+    console.log(errject); // 永远不会到这里
+})
+var p = Promise.resolve(21);
+var p2 = p.then(resovle => {
+    console.log(resovle);
+    return resovle * 2;
+})
+p2.then(resolve => {
+    console.log(resolve); // 42
+})
+var p = Promise.resolve(21);
+p.then(function (resolve) {
+    return new Promise(function (resolve, reject) {
+        // console.log(resolve);s
+        setTimeout(function () {
+            return resolve ( resolve * 2);
+        }, 1000)
+    })
+})
+.then (function (resolve) {
+    console.log(resolve);
+})
+delay = (timer) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve, timer);
+    })
+}
+delay(100)
+    .then(() => {
+        console.log("100ms after exec");
+        return delay(500);
+    })
+    .then(() => {
+        console.log("200ms after exec");
+        return delay(1000);
+    })
+    .then(() => {
+        console.log("300ms after exec");
+    })
+    .then(resolveValue => {
+        console.log("300ms after exec");
+    })
+function request (url) {
+    return new Promise(function (resolve, reject) {
+        ajax(url, resolve);
+    })
+}
+var rejectedPr = new Promise((resolve, reject) => {
+    resolve(Promise.reject("Oops"));
+})
+rejectedPr.then(() => {
+    // 永远不会运行到这里。
+}, err => {
+    console.log(err): // Oops
+})
+function fulfilled (msg) {
+    console.log(msg);
+}
+function rejected (err) {
+    console.log(err);
+}
+p.then(fulfilled, rejected);
