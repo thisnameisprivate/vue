@@ -184,3 +184,44 @@ function rejected (err) {
     console.log(err);
 }
 p.then(fulfilled, rejected);
+var p = Promise.resolve(42);
+p.then(resolve => {
+    console.log(resolve.toLowerCase());
+})
+.done(null, handleErrors);
+var p = Promise.resolve(42);
+p.then(function fulfilled (msg) {
+    console.log(msg.toLowerCase());
+})
+var p1 = request(url);
+var p2 = request(url2);
+Promise.all([p1, p2]).then(function (msg) {
+    return request(
+        "http://some.url.3/?v=" + msg.join(',')
+    );
+})
+.then(function (msg) {
+    console.log(msg);
+});
+Promise.race([
+    foo(),
+    timeOutPromise(3000) // 定时为3000ms
+])
+.then(
+    function () {
+        // 按时完成(在3000ms之内)
+    },
+    function (err) {
+        console.log(err);
+    }
+)
+if (!Promise.first) {
+    Promise.first = function (prs) {
+        return new Promise(function (resolve, reject) {
+            prs.forEach(function (pr) {
+                Promise.resolve(pr)
+                    .then(resolve);
+            })
+        })
+    }
+}
