@@ -1,34 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>slider image</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>todoList</title>
     <style>
-        ul, li{list-style:none;}
-        .container{position:absolute; top:0; left:0; right:0; bottom:0; margin:auto; border:1px solid #ccc; width:900px; height:500px; overflow:hidden;}
-        .container-ul{padding:0; margin:0; width:3600px; height:500px; position:relative; float:left;}
-        .container-ul li{float:left;}
-        img{width:900px; height:500px;}
+        .isFinshed {
+            font-size: 1rem;
+            font-weight: 800;
+            color: red;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <ul class="container-ul">
-        <li><img src="1.jpg" alt="1.jpg"></li>
-        <li><img src="2.jpg" alt="2.jpg"></li>
-        <li><img src="3.jpg" alt="3.jpg"></li>
-        <li><img src="4.jpg" alt="4.jpg"></li>
+<div id="app">
+    <div>{{message}}</div>
+    <input type="text" v-model="message" @keyup.enter="itemsPush">
+    <ul>
+        <todo-items v-for="(item, index) in items" :key="index" :index="index" :content="item.label" @delete="handleDelete" :class="{isFinshed:item.isFinshed}"></todo-items>
     </ul>
 </div>
 </body>
-<script type="text/javascript">
-    var containerUl = document.getElementsByClassName('container-ul')[0];
-    (() => {
-        (() => {
-            setInterval(() => {
-                console.log("setInterval Over.");
-            }, 1000)
-        })();
-    })()
+<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+<script>
+Vue.component('todo-items', {
+    props: ['content', 'index'],
+    template: '<li @click="handleClick">{{content}}</li>',
+    methods: {
+        handleClick: function () {
+            this.$emit('delete', this.index);
+        }
+    },
+});
+var app = new Vue({
+    el: '#app',
+    data: {
+        message: '',
+        items: [
+
+        ],
+    },
+    methods: {
+        itemsPush: function () {
+            if (this.message == '') {
+                return false;
+            } else {
+                this.items.push({
+                    label: this.message,
+                    isFinshed: true
+                });
+            }
+            this.message = '';
+        },
+        handleDelete: function (index) {
+            this.items[index].isFinshed = !this.items[index].isFinshed;
+        }
+    },
+});
 </script>
 </html>
