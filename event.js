@@ -28,7 +28,7 @@ ajax('url2', response());
 // 协调交互顺序
 var res = [];
 function response(data) {
-    if (data.url == 'url1) {
+    if (data.url == 'url1') {
         res[0] = data;
     } else if (data.url == 'url2') {
         res[1] = data;
