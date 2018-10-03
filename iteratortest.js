@@ -64,7 +64,7 @@ it.next();
 // Promise
 foo => (resolve, reject) => {
     return request => () => {
-        'http://some.url.1/?x=' + x + '$y=' + y,
+        'http://some.url.1/?x=' + x + '$y=' + y;
     }
 }
 foo(11, 31)
@@ -73,3 +73,15 @@ foo(11, 31)
     }, reject => {
         console.log(reject);
     });
+// Promise 并发
+function *foo () {
+    var result = yield Promise.all([
+        request('https://some.url.1/?x=' + x + '$y=' + y),
+        request('https://some.url.2/?x=' + x + '$y=' + y)
+    ]);
+    var p1 = result[0];
+    var p2 = result[1];
+    var r3 = yield request('http://some.url.1/?x=' + p1 + '$y=' + p2);
+    console.log(r3);
+}
+run(foo);
